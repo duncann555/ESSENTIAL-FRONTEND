@@ -1,18 +1,22 @@
 import { useState } from "react";
 import { Navbar, Nav, Button, Container } from "react-bootstrap";
 import { NavLink, Link, useNavigate } from "react-router-dom";
+
 import logo from "../assets/logo2.png";
 import "../styles/menu.css";
+
 import Login from "../Components/Login.jsx";
 import Register from "../Components/Registro.jsx";
 
 function Menu({ usuarioLogueado, setUsuarioLogueado }) {
+  // ------------------ States ------------------
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-
   const [busqueda, setBusqueda] = useState("");
+
   const navigate = useNavigate();
 
+  // ------------------ Handlers ------------------
   const handleShowLogin = () => {
     setShowLogin(true);
     setShowRegister(false);
@@ -37,22 +41,18 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
     setBusqueda("");
   };
 
+  // ------------------ UI ------------------
   return (
     <>
-      <Navbar expand="lg" className="navbar-custom" sticky="top">
-        <Container>
-          <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-            {logo && (
-              <img
-                src={logo}
-                alt="Esencia logo"
-                className="logo-navbar me-2 shadow-sm"
-              />
-            )}
+      <Navbar expand="lg" className="navbar-custom" sticky="top" collapseOnSelect>
+        <Container className="gap-3">
+          {/* LOGO */}
+          <Navbar.Brand as={Link} to="/" className="d-flex align-items-center flex-shrink-0">
+            <img src={logo} alt="Esencia logo" className="logo-navbar me-2 shadow-sm" />
           </Navbar.Brand>
 
           {/* BUSCADOR (DESKTOP) */}
-          <div className="d-none d-lg-flex flex-grow-1 justify-content-center">
+          <div className="d-none d-lg-flex flex-grow-1 justify-content-center px-3">
             <form onSubmit={manejarEnvio} className="search-wrapper w-100" role="search">
               <i className="bi bi-search search-icon" />
               <div className="search-floating w-100">
@@ -69,9 +69,13 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
             </form>
           </div>
 
-          <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0" />
+          {/* TOGGLE (MOBILE) */}
+          <Navbar.Toggle
+            aria-controls="basic-navbar-nav"
+            className="border-0 ms-auto d-lg-none"
+          />
 
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Collapse id="basic-navbar-nav" className="flex-lg-grow-0">
             {/* BUSCADOR (MOBILE) */}
             <div className="d-lg-none w-100 my-2">
               <form onSubmit={manejarEnvio} className="search-wrapper w-100" role="search">
@@ -90,10 +94,10 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
               </form>
             </div>
 
-            <Nav className="ms-auto align-items-center gap-2">
+            {/* LINKS */}
+            <Nav className="ms-lg-auto align-items-lg-center gap-2 mt-2 mt-lg-0">
               <NavLink to="/" className="nav-link">Inicio</NavLink>
               <NavLink to="/productos" className="nav-link">Productos</NavLink>
-              <NavLink to="/nosotros" className="nav-link">Sobre Nosotros</NavLink>
               <NavLink to="/contacto" className="nav-link">Contacto</NavLink>
 
               {usuarioLogueado ? (
@@ -103,35 +107,35 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
                       Administrador
                     </Button>
                   </NavLink>
-                  <Button
-                    variant="outline-light"
-                    onClick={() => setUsuarioLogueado(false)}
-                  >
+
+                  <Button variant="outline-light" onClick={() => setUsuarioLogueado(false)}>
                     Cerrar sesión
                   </Button>
                 </>
               ) : (
-                <Button
-                  variant="warning"
+                <button
+                  className="btn-login-modern"
                   onClick={handleShowLogin}
-                  className="d-flex align-items-center gap-2 fw-semibold btn-primary"
-                  aria-label="Iniciar sesión"
+                  type="button"
+                  aria-label="Ingresar"
                 >
-                  <i className="bi bi-person-circle fs-5" />
-                  <span className="d-none d-sm-inline">Iniciar sesión</span>
-                </Button>
+                  <i className="bi bi-person" />
+                  <span className="d-none d-lg-inline ms-1">Ingresar</span>
+                </button>
               )}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
 
+      {/* MODALES */}
       <Login
         show={showLogin}
         handleClose={handleCloseAll}
         handleShowRegister={handleShowRegister}
         setUsuarioLogueado={setUsuarioLogueado}
       />
+
       <Register
         show={showRegister}
         handleClose={handleCloseAll}
