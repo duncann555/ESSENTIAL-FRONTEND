@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navbar, Nav, Button, Container } from "react-bootstrap";
+import { Navbar, Container, Button } from "react-bootstrap";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 
 import logo from "../assets/logo2.png";
@@ -39,54 +39,39 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
     setBusqueda("");
   };
 
+  const handleLogout = () => {
+    setUsuarioLogueado(false);
+    navigate("/", { replace: true });
+  };
+
+  const lowerLinkClass = ({ isActive }) =>
+    `lower-link ${isActive ? "active-lower" : ""}`;
+
   return (
     <>
-      <Navbar expand="lg" sticky="top" collapseOnSelect className="navbar-custom">
-        <Container className="d-flex align-items-center gap-3">
-          {/* LOGO */}
-          <Navbar.Brand
-            as={Link}
-            to="/"
-            className="d-flex align-items-center flex-shrink-0 m-0"
-          >
-            <img
-              src={logo}
-              alt="Flor & Life logo"
-              className="logo-navbar me-2 shadow-sm d-block"
-            />
-          </Navbar.Brand>
-
-          {/* BUSCADOR (DESKTOP) centrado */}
-          <div className="d-none d-lg-flex flex-grow-1 justify-content-center px-3">
-            <form
-              onSubmit={manejarEnvio}
-              role="search"
-              className="search-wrapper w-100"
-            >
-              <i className="bi bi-search search-icon" />
-              <div className="search-floating w-100">
-                <input
-                  type="search"
-                  className="search-input"
-                  placeholder="Buscar por producto y categoría"
-                  value={busqueda}
-                  onChange={(e) => setBusqueda(e.target.value)}
-                  aria-label="Buscar productos"
+      {/* =======================
+          NAVBAR SUPERIOR
+      ======================= */}
+      <Navbar sticky="top" className="navbar-custom shadow-sm">
+        <Container>
+          <div className="row w-100 align-items-center g-2">
+            {/* IZQUIERDA — LOGO */}
+            <div className="col-6 col-md-3 d-flex align-items-center">
+              <Navbar.Brand
+                as={Link}
+                to="/"
+                className="d-flex align-items-center m-0"
+              >
+                <img
+                  src={logo}
+                  alt="Flor & Life logo"
+                  className="logo-navbar me-2 shadow-sm d-block"
                 />
-                <span className="search-label">Buscar productos</span>
-              </div>
-            </form>
-          </div>
+              </Navbar.Brand>
+            </div>
 
-          {/* TOGGLE (MOBILE) */}
-          <Navbar.Toggle
-            aria-controls="basic-navbar-nav"
-            className="border-0 ms-auto d-lg-none"
-          />
-
-          <Navbar.Collapse id="basic-navbar-nav" className="flex-lg-grow-0">
-            {/* BUSCADOR (MOBILE) */}
-            <div className="d-lg-none w-100 my-2">
+            {/* CENTRO — BUSCADOR (desktop) */}
+            <div className="col-md-6 d-none d-md-flex justify-content-center">
               <form
                 onSubmit={manejarEnvio}
                 role="search"
@@ -107,27 +92,23 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
               </form>
             </div>
 
-            {/* LINKS */}
-            <Nav className="ms-lg-auto d-flex flex-column flex-lg-row align-items-lg-center gap-2 mt-2 mt-lg-0">
-              <NavLink to="/" className="nav-link">Inicio</NavLink>
-              <NavLink to="/productos" className="nav-link">Productos</NavLink>
-              <NavLink to="/contacto" className="nav-link">Contacto</NavLink>
-
+            {/* DERECHA — LOGIN/ADMIN + CARRITO */}
+            <div className="col-6 col-md-3 d-flex justify-content-end align-items-center gap-2">
               {usuarioLogueado ? (
                 <>
-                  <NavLink to="/admin">
-                    <Button variant="warning" className="fw-semibold me-lg-2">
-                      Administrador
+                  <NavLink to="/admin" className="text-decoration-none">
+                    <Button variant="warning" className="fw-semibold">
+                      Admin
                     </Button>
                   </NavLink>
 
-                  <Button variant="outline-light" onClick={() => setUsuarioLogueado(false)}>
-                    Cerrar sesión
+                  <Button variant="outline-light" onClick={handleLogout}>
+                    Salir
                   </Button>
                 </>
               ) : (
                 <button
-                  className="btn-login-modern ms-lg-2"
+                  className="btn-login-modern"
                   onClick={handleShowLogin}
                   type="button"
                   aria-label="Ingresar"
@@ -136,10 +117,57 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
                   <span className="d-none d-lg-inline ms-1">Ingresar</span>
                 </button>
               )}
-            </Nav>
-          </Navbar.Collapse>
+
+              <NavLink
+                to="/carrito"
+                className="nav-icon-button"
+                aria-label="Carrito"
+              >
+                <i className="bi bi-cart3" />
+              </NavLink>
+            </div>
+
+            {/* BUSCADOR (mobile) */}
+            <div className="col-12 d-md-none">
+              <form
+                onSubmit={manejarEnvio}
+                role="search"
+                className="search-wrapper w-100"
+              >
+                <i className="bi bi-search search-icon" />
+                <div className="search-floating w-100">
+                  <input
+                    type="search"
+                    className="search-input"
+                    placeholder="Buscar por producto y categoría"
+                    value={busqueda}
+                    onChange={(e) => setBusqueda(e.target.value)}
+                    aria-label="Buscar productos"
+                  />
+                  <span className="search-label">Buscar productos</span>
+                </div>
+              </form>
+            </div>
+          </div>
         </Container>
       </Navbar>
+
+      {/* =======================
+          NAVBAR INFERIOR
+      ======================= */}
+      <div className="lower-navbar">
+        <Container className="d-flex gap-4 justify-content-center lower-nav-inner">
+          <NavLink to="/" className={lowerLinkClass}>
+            Inicio
+          </NavLink>
+          <NavLink to="/productos" className={lowerLinkClass}>
+            Productos
+          </NavLink>
+          <NavLink to="/contacto" className={lowerLinkClass}>
+            Contacto
+          </NavLink>
+        </Container>
+      </div>
 
       {/* MODALES */}
       <Login
@@ -148,6 +176,7 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
         handleShowRegister={handleShowRegister}
         setUsuarioLogueado={setUsuarioLogueado}
       />
+
       <Register
         show={showRegister}
         handleClose={handleCloseAll}
