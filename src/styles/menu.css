@@ -1,14 +1,10 @@
-/* =========================
-   NAVBAR
-========================= */
+/* Bootstrap maneja el layout. Acá dejamos “skin”. */
 .navbar-custom {
   background-color: var(--color-primario) !important;
-  padding: 12px 0;
+  --bs-navbar-padding-y: 0.75rem; /* ~12px */
 }
 
-/* =========================
-   LINKS
-========================= */
+/* LINKS (color + underline animado) */
 .navbar-nav .nav-link {
   color: var(--color-fondo) !important;
   font-weight: 500;
@@ -32,26 +28,20 @@
   width: 80%;
 }
 
-/* =========================
-   LOGO
-========================= */
+/* LOGO (responsive sin media query) */
 .logo-navbar {
-  height: 60px;
+  height: clamp(48px, 5vw, 60px);
   width: auto;
-  max-width: 220px;
+  max-width: clamp(180px, 18vw, 220px);
   border-radius: 10px;
-  background-color: transparent;
+  background: transparent;
   object-fit: contain;
-  display: block;
 }
 
-/* =========================
-   BUSCADOR (Floating Label)
-========================= */
+/* BUSCADOR (floating label) */
 .search-wrapper {
   position: relative;
   max-width: 520px;
-  width: 100%;
   margin: 0 auto;
 }
 
@@ -85,7 +75,6 @@
 
 .search-input::placeholder {
   color: transparent;
-  transition: 0.2s ease;
 }
 
 .search-label {
@@ -122,9 +111,7 @@
   border-radius: 6px;
 }
 
-/* =========================
-   BOTÓN LOGIN
-========================= */
+/* BOTÓN LOGIN */
 .btn-login-modern {
   display: inline-flex;
   align-items: center;
@@ -156,14 +143,4 @@
 .btn-login-modern i {
   font-size: 1.2rem;
   line-height: 1;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-@media (max-width: 992px) {
-  .logo-navbar {
-    height: 48px;
-    max-width: 180px;
-  }
 }
