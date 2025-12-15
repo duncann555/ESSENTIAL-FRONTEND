@@ -31,3 +31,11 @@
 .navbar-nav .nav-link.active::after {
   width: 80%;
 }
+
+.logo-navbar {
+  height: 48px;              /* clave: se adapta al navbar */
+  width: auto;               /* mantiene proporción */
+  object-fit: contain;
+  border-radius: 10px;       /* suave, elegante */
+  background-color: transparent;
+}
