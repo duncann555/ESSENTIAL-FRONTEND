@@ -182,6 +182,17 @@
   width: 80%;
 }
 
+/* Color del link cuando está activo */
+.lower-link.active-lower {
+  color: var(--color-primario) !important;
+}
+
+/* (opcional) también cuando pasás el mouse */
+.lower-link:hover {
+  color:var(--color-primario);
+}
+
+
 /* BOTÓN ÍCONO (Carrito) */
 .nav-icon-button {
   width: 40px;
