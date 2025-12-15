@@ -3,6 +3,7 @@ import { Navbar, Nav, Button } from "react-bootstrap";
 import { NavLink, Link } from "react-router";
 import logo from "../assets/ESSENTIAL.png";
 import "../styles/Menu.css";
+import Login from "../Components/Login.jsx";
 
 function Menu({ usuarioLogueado, setUsuarioLogueado }) {
   const [showLogin, setShowLogin] = useState(false);
