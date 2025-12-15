@@ -164,7 +164,7 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
             Productos
           </NavLink>
           <NavLink to="/contacto" className={lowerLinkClass}>
-            Contacto
+            Contactanos
           </NavLink>
         </Container>
       </div>

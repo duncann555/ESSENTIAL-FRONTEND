@@ -19,7 +19,6 @@ function Register({ show, handleClose, handleShowLogin }) {
   };
 
   const onSubmit = (data) => {
-    // acá después conectás tu lógica
     console.log("REGISTER:", data);
     handleClose?.();
   };
