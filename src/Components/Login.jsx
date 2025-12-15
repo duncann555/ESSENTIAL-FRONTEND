@@ -50,7 +50,7 @@ function Login({ show, handleClose, handleShowRegister, setUsuarioLogueado }) {
             <Form.Label>Email:</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Ej: juanperez@mail.com"
+              placeholder="Ej: tu@correo.com"
               isInvalid={!!errors.email}
               {...register("email", {
                 required: "El email es un dato obligatorio",
@@ -69,7 +69,7 @@ function Login({ show, handleClose, handleShowRegister, setUsuarioLogueado }) {
             <Form.Label>Contraseña:</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Ingresa una contraseña"
+              placeholder="Ingresá tu contraseña"
               isInvalid={!!errors.password}
               {...register("password", {
                 required: "La contraseña es un dato obligatorio",
