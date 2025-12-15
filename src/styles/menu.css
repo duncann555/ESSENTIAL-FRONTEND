@@ -1,6 +1,5 @@
 .navbar-custom {
   background-color: var(--color-primario) !important;
-  padding: 1rem 2rem;
 }
 
 .brand-text {
@@ -33,9 +32,8 @@
 }
 
 .logo-navbar {
-  height: 48px;              /* clave: se adapta al navbar */
-  width: auto;               /* mantiene proporción */
-  object-fit: contain;
+  height: 60px;              /* clave: se adapta al navbar */
+  width: 180px;               /* mantiene proporción */
   border-radius: 10px;       /* suave, elegante */
   background-color: transparent;
 }
