@@ -1,9 +1,11 @@
+import { BrowserRouter } from "react-router";
 import Menu from './shared/Menu.jsx';
+
 const App = () => {
   return (
-    <div>
-      <Menu></Menu>
-    </div>
+    <BrowserRouter>
+      <Menu />
+    </BrowserRouter>
   );
 };
 

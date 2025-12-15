@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { NavLink, Link } from "react-router";
 import logo from "../assets/ESSENTIAL.png";
-import "../styles/Menu.css";
+import "../styles/menu.css";
 import Login from "../Components/Login.jsx";
+import Register from "../Components/Registro.jsx";
 
 function Menu({ usuarioLogueado, setUsuarioLogueado }) {
   const [showLogin, setShowLogin] = useState(false);
