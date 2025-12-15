@@ -1,9 +1,8 @@
-import React from 'react';
-
+import Menu from './shared/Menu.jsx';
 const App = () => {
   return (
     <div>
-      hola
+      <Menu></Menu>>
     </div>
   );
 };
