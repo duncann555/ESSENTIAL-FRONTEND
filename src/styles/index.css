@@ -8,3 +8,163 @@
 main {
   flex-grow: 1;
 }
+
+/* ===========================
+   PALETA DE COLORES BIENESTAR ARTESANAL
+   =========================== */
+:root {
+  --color-primario: #3D5B40; /* verde hoja */
+  --color-secundario: #E6D6B8; /* arena cálido */
+  --color-fondo: #FAF8F3; /* crema claro */
+  --color-texto: #3B2F2F; /* marrón oscuro */
+  --color-acento: #A8C3A0; /* verde salvia */
+  --color-borde: #BFB8AD; /* gris cálido */
+}
+
+/* ===========================
+   ESTILOS GLOBALES
+   =========================== */
+body {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  color: var(--color-primario);
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-primario);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-acento);
+}
+
+/* ===========================
+   NAVBAR
+   =========================== */
+
+
+/* ===========================
+   MAIN
+   =========================== */
+main {
+  background-color: var(--color-fondo);
+  padding: 3rem 1rem;
+  min-height: 70vh;
+}
+
+.btn-primary {
+  background-color: var(--color-acento);
+  border: none;
+  color: var(--color-texto);
+  font-weight: 600;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primario);
+  color: var(--color-secundario);
+}
+
+/* Cards o secciones destacadas */
+.card {
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ===========================
+   DETALLES ADICIONALES
+   =========================== */
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-borde);
+  margin: 2rem 0;
+}
+
+.container-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.container-title h1 {
+  font-size: 2.2rem;
+  color: var(--color-primario);
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .container-title h1 {
+    font-size: 1.8rem;
+  }
+
+  footer {
+    font-size: 0.9rem;
+  }
+}
+
+.footer {
+  background-color: var(--color-secundario);
+  color: var(--color-texto);
+  font-family: 'Nunito', sans-serif;
+  border-top: 1px solid var(--color-borde);
+}
+
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  color: var(--color-primario);
+  font-weight: 700;
+}
+
+.footer a {
+  color: var(--color-primario);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer a:hover {
+  color: var(--color-acento);
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer i {
+  font-size: 1.4rem;
+  color: var(--color-primario);
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.footer i:hover {
+  color: var(--color-acento);
+  transform: scale(1.1);
+}
+
+.footer hr {
+  border-top: 1px solid var(--color-borde);
+  opacity: 0.6;
+}
+

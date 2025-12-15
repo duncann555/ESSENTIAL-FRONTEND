@@ -17,7 +17,7 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
 
   const handleShowRegister = () => {
     setShowRegister(true);
-   // setShowLogin(false);
+    setShowLogin(false);
   };
 
   const handleCloseAll = () => {
@@ -27,7 +27,7 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
 
   return (
     <>
-      <Navbar expand="lg" className="navbar-custom" sticky="top">
+      <Navbar expand="lg" className="navbar navbar-custom" sticky="top">
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
           {logo && (
             <img
@@ -42,30 +42,55 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0" />
+
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto align-items-center gap-2">
-            <NavLink to="/" className="nav-link">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
               Inicio
             </NavLink>
-            <NavLink to="/productos" className="nav-link">
+
+            <NavLink
+              to="/productos"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
               Productos
             </NavLink>
-            <NavLink to="/nosotros" className="nav-link">
+
+            <NavLink
+              to="/nosotros"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
               Sobre Nosotros
             </NavLink>
-            <NavLink to="/contacto" className="nav-link">
+
+            <NavLink
+              to="/contacto"
+              className={({ isActive }) =>
+                `nav-link ${isActive ? "active" : ""}`
+              }
+            >
               Contacto
             </NavLink>
 
             {usuarioLogueado ? (
               <>
                 <NavLink to="/admin">
-                  <Button variant="warning" className="fw-semibold me-2">
+                  <Button className="btn-login-outline me-2">
                     Administrador
                   </Button>
                 </NavLink>
+
                 <Button
-                  variant="outline-light"
+                  className="btn-login-outline"
                   onClick={() => setUsuarioLogueado(false)}
                 >
                   Cerrar sesión
@@ -73,9 +98,8 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
               </>
             ) : (
               <Button
-                variant="warning"
                 onClick={handleShowLogin}
-                className="d-flex align-items-center gap-2 fw-semibold btn-primary"
+                className="btn-login d-flex align-items-center gap-2 fw-semibold"
                 aria-label="Iniciar sesión"
               >
                 <i className="bi bi-person-circle fs-5" />
@@ -93,6 +117,7 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
         handleShowRegister={handleShowRegister}
         setUsuarioLogueado={setUsuarioLogueado}
       />
+
       <Register
         show={showRegister}
         handleClose={handleCloseAll}
