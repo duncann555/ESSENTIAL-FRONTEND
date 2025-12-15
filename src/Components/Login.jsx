@@ -1,5 +1,4 @@
 import { Modal, Button, Form } from "react-bootstrap";
-import "../styles/login.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
@@ -14,13 +13,10 @@ function Login({ show, handleClose, handleShowRegister, setUsuarioLogueado }) {
   const navegacion = useNavigate();
 
   const onSubmit = (data) => {
-    console.log(data);
-
     if (
       data.email === import.meta.env.VITE_API_EMAIL &&
       data.password === import.meta.env.VITE_API_PASSWORD
     ) {
-      console.log("aqui logueo al usuario");
       setUsuarioLogueado(true);
 
       Swal.fire({
@@ -30,11 +26,10 @@ function Login({ show, handleClose, handleShowRegister, setUsuarioLogueado }) {
       });
 
       handleClose();
-
       navegacion("/admin");
     } else {
       Swal.fire({
-        title: "Ocurrio un error",
+        title: "Ocurrió un error",
         text: "Credenciales incorrectas",
         icon: "error",
       });
@@ -56,6 +51,7 @@ function Login({ show, handleClose, handleShowRegister, setUsuarioLogueado }) {
             <Form.Control
               type="email"
               placeholder="Ej: juanperez@mail.com"
+              isInvalid={!!errors.email}
               {...register("email", {
                 required: "El email es un dato obligatorio",
                 pattern: {
@@ -64,16 +60,17 @@ function Login({ show, handleClose, handleShowRegister, setUsuarioLogueado }) {
                 },
               })}
             />
-            <Form.Text className="text-danger">
+            <Form.Control.Feedback type="invalid">
               {errors.email?.message}
-            </Form.Text>
+            </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Group className="mb-2" controlId="formBasicPassword">
             <Form.Label>Contraseña:</Form.Label>
             <Form.Control
               type="password"
               placeholder="Ingresa una contraseña"
+              isInvalid={!!errors.password}
               {...register("password", {
                 required: "La contraseña es un dato obligatorio",
                 pattern: {
@@ -83,10 +80,28 @@ function Login({ show, handleClose, handleShowRegister, setUsuarioLogueado }) {
                 },
               })}
             />
-            <Form.Text className="text-danger">
+            <Form.Control.Feedback type="invalid">
               {errors.password?.message}
-            </Form.Text>
+            </Form.Control.Feedback>
           </Form.Group>
+
+          {/* ¿Olvidaste tu contraseña? */}
+          <div className="d-flex justify-content-end mb-3">
+            <Button
+              variant="link"
+              className="p-0 text-decoration-none"
+              onClick={() =>
+                Swal.fire({
+                  title: "Recuperar contraseña",
+                  text:
+                    "Todavía no está implementado. Si querés, lo armamos con 'Olvidé mi contraseña' en el backend.",
+                  icon: "info",
+                })
+              }
+            >
+              ¿Olvidaste tu contraseña?
+            </Button>
+          </div>
 
           <Button variant="primary" type="submit" className="w-100 fw-semibold">
             Ingresar
@@ -95,20 +110,20 @@ function Login({ show, handleClose, handleShowRegister, setUsuarioLogueado }) {
 
         <div className="text-center my-3 text-muted">o continuar con</div>
 
-        <div className="d-flex justify-content-center gap-3 mb-3">
+        <div className="d-flex justify-content-center gap-3 mb-3 flex-wrap">
           <Button
-            variant="light"
-            className="btn-social-facebook d-flex align-items-center gap-2 px-3"
+            variant="outline-primary"
+            className="d-flex align-items-center gap-2 px-3"
           >
-            <i className="bi bi-facebook fs-4 text-primary"></i>
+            <i className="bi bi-facebook fs-4"></i>
             <span>Facebook</span>
           </Button>
 
           <Button
-            variant="light"
-            className="btn-social-instagram d-flex align-items-center gap-2 px-3"
+            variant="outline-danger"
+            className="d-flex align-items-center gap-2 px-3"
           >
-            <i className="bi bi-instagram fs-4 text-danger"></i>
+            <i className="bi bi-instagram fs-4"></i>
             <span>Instagram</span>
           </Button>
         </div>
@@ -116,16 +131,13 @@ function Login({ show, handleClose, handleShowRegister, setUsuarioLogueado }) {
         <div className="text-center">
           <p className="text-muted mb-0">
             ¿No tenés cuenta?{" "}
-            <a
-              href="#"
-              className="text-primary fw-semibold text-decoration-none"
-              onClick={(e) => {
-                e.preventDefault();
-                handleShowRegister();
-              }}
+            <Button
+              variant="link"
+              className="p-0 fw-semibold text-decoration-none"
+              onClick={handleShowRegister}
             >
               Registrate
-            </a>
+            </Button>
           </p>
         </div>
       </Modal.Body>
