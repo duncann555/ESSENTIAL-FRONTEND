@@ -9,14 +9,12 @@ import Login from "../Components/Login.jsx";
 import Register from "../Components/Registro.jsx";
 
 function Menu({ usuarioLogueado, setUsuarioLogueado }) {
-  // ------------------ States ------------------
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [busqueda, setBusqueda] = useState("");
 
   const navigate = useNavigate();
 
-  // ------------------ Handlers ------------------
   const handleShowLogin = () => {
     setShowLogin(true);
     setShowRegister(false);
@@ -41,19 +39,30 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
     setBusqueda("");
   };
 
-  // ------------------ UI ------------------
   return (
     <>
-      <Navbar expand="lg" className="navbar-custom" sticky="top" collapseOnSelect>
-        <Container className="gap-3">
+      <Navbar expand="lg" sticky="top" collapseOnSelect className="navbar-custom">
+        <Container className="d-flex align-items-center gap-3">
           {/* LOGO */}
-          <Navbar.Brand as={Link} to="/" className="d-flex align-items-center flex-shrink-0">
-            <img src={logo} alt="Esencia logo" className="logo-navbar me-2 shadow-sm" />
+          <Navbar.Brand
+            as={Link}
+            to="/"
+            className="d-flex align-items-center flex-shrink-0 m-0"
+          >
+            <img
+              src={logo}
+              alt="Flor & Life logo"
+              className="logo-navbar me-2 shadow-sm d-block"
+            />
           </Navbar.Brand>
 
-          {/* BUSCADOR (DESKTOP) */}
+          {/* BUSCADOR (DESKTOP) centrado */}
           <div className="d-none d-lg-flex flex-grow-1 justify-content-center px-3">
-            <form onSubmit={manejarEnvio} className="search-wrapper w-100" role="search">
+            <form
+              onSubmit={manejarEnvio}
+              role="search"
+              className="search-wrapper w-100"
+            >
               <i className="bi bi-search search-icon" />
               <div className="search-floating w-100">
                 <input
@@ -78,7 +87,11 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
           <Navbar.Collapse id="basic-navbar-nav" className="flex-lg-grow-0">
             {/* BUSCADOR (MOBILE) */}
             <div className="d-lg-none w-100 my-2">
-              <form onSubmit={manejarEnvio} className="search-wrapper w-100" role="search">
+              <form
+                onSubmit={manejarEnvio}
+                role="search"
+                className="search-wrapper w-100"
+              >
                 <i className="bi bi-search search-icon" />
                 <div className="search-floating w-100">
                   <input
@@ -95,7 +108,7 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
             </div>
 
             {/* LINKS */}
-            <Nav className="ms-lg-auto align-items-lg-center gap-2 mt-2 mt-lg-0">
+            <Nav className="ms-lg-auto d-flex flex-column flex-lg-row align-items-lg-center gap-2 mt-2 mt-lg-0">
               <NavLink to="/" className="nav-link">Inicio</NavLink>
               <NavLink to="/productos" className="nav-link">Productos</NavLink>
               <NavLink to="/contacto" className="nav-link">Contacto</NavLink>
@@ -103,7 +116,7 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
               {usuarioLogueado ? (
                 <>
                   <NavLink to="/admin">
-                    <Button variant="warning" className="fw-semibold me-2">
+                    <Button variant="warning" className="fw-semibold me-lg-2">
                       Administrador
                     </Button>
                   </NavLink>
@@ -114,7 +127,7 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
                 </>
               ) : (
                 <button
-                  className="btn-login-modern"
+                  className="btn-login-modern ms-lg-2"
                   onClick={handleShowLogin}
                   type="button"
                   aria-label="Ingresar"
@@ -135,7 +148,6 @@ function Menu({ usuarioLogueado, setUsuarioLogueado }) {
         handleShowRegister={handleShowRegister}
         setUsuarioLogueado={setUsuarioLogueado}
       />
-
       <Register
         show={showRegister}
         handleClose={handleCloseAll}
