@@ -216,10 +216,10 @@
 /* MOBILE: scrolleo horizontal */
 @media (max-width: 575.98px) {
   .lower-nav-inner {
-    justify-content: flex-start !important;
+    justify-content: flex-center !important;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 10px 12px;
+    padding: 1px 12px;
   }
   .lower-nav-inner a {
     white-space: nowrap;

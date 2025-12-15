@@ -69,3 +69,32 @@
   color: rgba(255, 255, 255, 0.75);
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
+
+/* MOBILE: centrar contenido del footer */
+@media (max-width: 575.98px) {
+  .footer-container .row {
+    text-align: center;
+  }
+
+  /* Centra los bloques internos (los d-flex flex-column que ya tenés) */
+  .footer-container .col-12.col-md-4 > .d-flex {
+    align-items: center;
+  }
+
+  /* Centra el logo */
+  .footer-logo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Centra la lista de links */
+  .footer-container nav.d-flex {
+    align-items: center;
+  }
+
+  /* Centra los iconos sociales */
+  .footer-socials {
+    justify-content: center;
+  }
+}
+
