@@ -1,0 +1,71 @@
+.footer-container {
+  background: var(--color-primario);
+  color: var(--color-fondo);
+}
+
+.footer-top-line {
+  height: 3px;
+  background: var(--color-acento);
+  opacity: 0.9;
+}
+
+.footer-logo {
+  height: 52px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+}
+
+.footer-title {
+  font-weight: 700;
+  color: var(--color-fondo);
+}
+
+.footer-muted {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.footer-link {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.footer-link:hover {
+  color: var(--color-acento);
+  transform: translateX(2px);
+}
+
+.footer-contact {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.footer-accent {
+  color: var(--color-acento);
+}
+
+.footer-socials a {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--color-fondo);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.12);
+  transition: 0.2s;
+}
+
+.footer-socials a:hover {
+  border-color: var(--color-acento);
+  color: var(--color-acento);
+  transform: translateY(-2px);
+}
+
+.footer-bottom {
+  padding: 10px 0 12px;
+  color: rgba(255, 255, 255, 0.75);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
