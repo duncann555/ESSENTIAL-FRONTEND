@@ -1,0 +1,97 @@
+:root {
+  --color-brand: #53B852;
+  --color-brand-dark: #2D643F;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Card Principal */
+.reg-card {
+  max-width: 1000px;
+  margin: 0 auto;
+  border: none;
+  background-color: #fff;
+}
+
+/* Columna Info (Degradado Verde) */
+.bg-brand-gradient {
+  background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-dark) 100%);
+}
+
+.reg-info-col {
+  min-height: 600px;
+}
+
+/* Decoración de fondo */
+.circle-deco {
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  top: -80px;
+  left: -80px;
+  z-index: 0;
+}
+
+/* Inputs Personalizados */
+.reg-input {
+  border-radius: 12px !important;
+  border: 1px solid #e5e7eb;
+  background-color: #f8f9fa;
+  font-size: 0.95rem;
+}
+
+.reg-input:focus {
+  background-color: #fff;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 4px rgba(83, 184, 82, 0.15);
+}
+
+.reg-input.is-invalid {
+  border-color: #dc3545; /* Rojo Bootstrap standard */
+  background-image: none; /* Quitamos icono feo por defecto si querés limpieza */
+}
+
+/* Botón Principal */
+.reg-btn {
+  background-color: var(--color-brand);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.reg-btn:hover {
+  background-color: var(--color-brand-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(83, 184, 82, 0.4);
+}
+
+.reg-btn:active {
+  transform: translateY(0);
+}
+
+/* Animación de entrada */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ajustes Responsive */
+@media (max-width: 991px) {
+    .reg-info-col {
+        min-height: auto;
+        padding: 3rem !important;
+    }
+}

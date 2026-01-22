@@ -1,0 +1,182 @@
+/* ==================================================
+   VARIABLES Y COLORES
+================================================== */
+:root {
+  --color-brand: #198754;
+  --color-brand-dark: #2D643F;
+  --bg-dark: #111;
+}
+
+/* ==================================================
+   NAVBAR SUPERIOR
+================================================== */
+.navbar-modern {
+  background-color: var(--bg-dark);
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 12px rgba(0,0,0,0.1);
+}
+
+/* ==================================================
+   BUSCADOR ANIMADO
+================================================== */
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  color: white;
+  padding-left: 45px;
+  height: 45px;
+  transition: all 0.3s ease;
+}
+
+.search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.2rem;
+  pointer-events: none;
+  z-index: 10;
+  transition: color 0.3s ease;
+}
+
+.search-label {
+  position: absolute;
+  left: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  transition: all 0.25s ease;
+  background-color: var(--bg-dark);
+  
+  padding: 0 5px;
+}
+
+.search-wrapper:focus-within .search-input {
+  border-color: var(--color-brand);
+  box-shadow: 0 0 10px rgba(25, 135, 84, 0.3); /* verde success */
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.search-wrapper:focus-within .search-label,
+.search-input:not(:placeholder-shown) + .search-label {
+  top: 0;
+  left: 20px;
+  font-size: 0.75rem;
+  color: var(--color-brand);
+}
+
+.search-input::placeholder {
+  color: transparent;
+}
+
+/* ==================================================
+   BOTONES Y ACCIONES
+================================================== */
+.btn-login-modern {
+  background-color: var(--color-brand);
+  color: white;
+  border: none;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.btn-login-modern:hover {
+  background-color: var(--color-brand-dark);
+  color: white;
+}
+
+.nav-icon-link {
+  color: white;
+  font-size: 1.5rem;
+  transition: color 0.2s;
+}
+
+.nav-icon-link:hover {
+  color: var(--color-brand);
+}
+
+/* ==================================================
+   NAVBAR INFERIOR (DESKTOP)
+================================================== */
+.lower-navbar {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.nav-link-custom {
+  color: #444;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  padding: 14px 0;
+  transition: all 0.2s;
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-link-custom:hover,
+.nav-link-custom.active {
+  color: var(--color-brand);
+}
+
+.nav-link-custom::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--color-brand);
+  transition: width 0.3s;
+}
+
+.nav-link-custom:hover::after,
+.nav-link-custom.active::after {
+  width: 100%;
+}
+
+/* ==================================================
+   LINKS MOBILE (COLLAPSE)
+================================================== */
+.nav-link-mobile {
+  color: rgba(255,255,255,0.8);
+  font-size: 1.1rem;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  text-decoration: none;
+  display: block;
+}
+
+.nav-link-mobile:hover,
+.nav-link-mobile.active {
+  color: var(--color-brand);
+  padding-left: 10px;
+  transition: all 0.2s;
+}
+
+/* ==================================================
+   HAMBURGUESA
+================================================== */
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(83, 184, 82, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}

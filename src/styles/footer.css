@@ -1,0 +1,127 @@
+/* ========================
+   VARIABLES LOCALES
+   ======================== */
+:root {
+  --footer-bg: #151515;       /* Gris casi negro, elegante */
+  --footer-text: #b0b0b0;     /* Gris suave para lectura */
+  --footer-heading: #ffffff;  /* Blanco para títulos */
+  --brand-color: #53B852;     /* Tu verde */
+}
+
+/* ========================
+   ESTRUCTURA PRINCIPAL
+   ======================== */
+.footer-section {
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  font-size: 0.95rem;
+  position: relative;
+}
+
+/* Línea verde superior fina */
+.footer-top-border {
+  height: 5px;
+  background: linear-gradient(90deg, var(--brand-color) 0%, #2D643F 100%);
+  width: 100%;
+}
+
+/* ========================
+   ELEMENTOS
+   ======================== */
+.footer-logo {
+  max-width: 140px;
+  height: auto;
+  filter: brightness(1.1); /* Un toque de brillo si el logo es oscuro */
+}
+
+.footer-heading {
+  color: var(--footer-heading);
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.footer-text {
+  line-height: 1.6;
+  max-width: 300px;
+  margin: 0 auto; /* Centrado en mobile */
+}
+
+/* En desktop alineamos a la izquierda */
+@media (min-width: 768px) {
+  .footer-text { margin: 0; }
+}
+
+/* ========================
+   LINKS
+   ======================== */
+.footer-links li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+  color: var(--footer-text);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: var(--brand-color);
+  transform: translateX(5px); /* Pequeño movimiento al pasar el mouse */
+}
+
+/* ========================
+   CONTACTO E ICONOS
+   ======================== */
+.footer-contact-item {
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centrado mobile */
+}
+
+@media (min-width: 768px) {
+  .footer-contact-item { justify-content: flex-start; }
+}
+
+.icon-brand {
+  color: var(--brand-color);
+  font-size: 1.1rem;
+}
+
+/* Redes Sociales */
+.footer-socials {
+  display: flex;
+  gap: 15px;
+}
+
+.footer-socials a {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-socials a:hover {
+  background: var(--brand-color);
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* ========================
+   COPYRIGHT (BARRA INFERIOR)
+   ======================== */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: #666;
+  font-size: 0.85rem;
+}

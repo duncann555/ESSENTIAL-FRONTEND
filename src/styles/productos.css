@@ -1,0 +1,57 @@
+:root {
+  --color-brand: #53B852;
+}
+
+/* Tipografía opcional */
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+/* ========================
+   SIDEBAR & FILTROS
+======================== */
+.list-group-item.active {
+  background-color: var(--color-brand) !important;
+  border-color: var(--color-brand) !important;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(83, 184, 82, 0.3);
+}
+
+.list-group-item:hover:not(.active) {
+  background-color: #f0fdf4;
+  color: var(--color-brand);
+}
+
+/* ========================
+   CARDS & IMÁGENES
+======================== */
+/* Animación de hover suave */
+.hover-scale {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.1) !important; 
+}
+
+/* Zoom interno de la imagen */
+.hover-scale .card-img-top {
+  transition: transform 0.5s ease;
+  /* Aseguramos que la imagen se renderice bien */
+  backface-visibility: hidden; 
+}
+
+.hover-scale:hover .card-img-top {
+  transform: scale(1.08);
+}
+
+/* Animación de entrada */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

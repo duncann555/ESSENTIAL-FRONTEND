@@ -1,0 +1,92 @@
+/* =========================
+   NOSOTROS - FONDO IGUAL A INICIO
+========================= */
+
+.nosotros-wrapper {
+  min-height: 100vh;
+  padding-bottom: 3rem;
+
+  /* mismo fondo que .inicio-wrapper */
+  background: radial-gradient(
+    circle at top,
+    rgba(140, 120, 255, 0.15) 0%,
+    #d7d8e2 38%,
+    #c8cad3 100%
+  );
+}
+
+/* =========================
+   HERO
+========================= */
+
+.nosotros-hero {
+  padding: 18px 0;
+}
+
+.nosotros-logo {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* =========================
+   CARDS
+   Mantengo estética parecida a las cards de productos
+========================= */
+
+.nosotros-card,
+.nosotros-card-highlight,
+.nosotros-card-cta {
+  border: none;
+  border-radius: 16px;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+  transition: 0.25s ease;
+}
+
+.nosotros-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+}
+
+.nosotros-card-highlight {
+  background: #ffffff;
+}
+
+.nosotros-card-cta {
+  background: #ffffff;
+}
+
+/* =========================
+   LISTA
+========================= */
+
+.nosotros-lista {
+  padding-left: 18px;
+  margin-bottom: 0;
+}
+
+.nosotros-lista li {
+  margin-bottom: 0.35rem;
+}
+
+/* =========================
+   CTA
+========================= */
+
+.nosotros-cta {
+  margin-top: 10px;
+}
+
+/* =========================
+   AJUSTES RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .nosotros-logo {
+    width: 48px;
+    height: 48px;
+  }
+}

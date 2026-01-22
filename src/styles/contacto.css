@@ -1,0 +1,106 @@
+:root {
+  --color-brand: #53B852;
+  --color-brand-dark: #2D643F;
+}
+
+.contacto-container {
+  max-width: 1000px;
+}
+
+/* Tipografía elegante */
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Inputs más limpios (estilo Floating Label customizado) */
+.form-control-clean {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 12px !important; /* Bootstrap a veces fuerza border-radius raros en floating */
+}
+
+.form-control-clean:focus {
+  background-color: #fff;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 4px rgba(83, 184, 82, 0.15);
+}
+
+/* Columna de Info (Verde) */
+.bg-brand-gradient {
+  background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-brand-dark) 100%);
+}
+
+.icon-box {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  backdrop-filter: blur(5px);
+}
+
+/* Decoración circular de fondo */
+.circle-deco {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  top: -100px;
+  right: -100px;
+  z-index: 0;
+}
+
+/* Links sociales */
+.social-link {
+  color: white;
+  font-size: 1.5rem;
+  opacity: 0.8;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.social-link:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+  color: white;
+}
+
+/* Botón hover */
+.btn-hover-effect {
+  transition: transform 0.2s;
+}
+
+.btn-hover-effect:hover {
+  transform: translateY(-2px);
+}
+
+/* Animaciones de entrada */
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.delay-1 {
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Spinner simple para el loading */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
