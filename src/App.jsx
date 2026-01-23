@@ -1,50 +1,51 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import FloatingButtons from "./components/shared/FloatingButtons"; // Importalo
-
-// 1. IMPORTAMOS LOS CONTEXTOS (LOS PARAGUAS)
+import Menu from "./components/shared/Menu";
+import Footer from "./components/shared/Footer";
+import Inicio from "./components/pages/Inicio";
+import Productos from "./components/pages/Productos";
+import DetalleProducto from "./components/pages/DetalleProducto";
+import Contacto from "./components/pages/Contacto";
+import Carrito from "./components/pages/Carrito";
+import Login from "./components/pages/Login"; // Ahora es página
+import Register from "./components/pages/Register";
+import Admin from "./components/pages/Admin"; // El panel
+import Error404 from "./components/pages/Error404";
 import { AuthProvider } from "./context/AuthContext";
-import { CarritoProvider } from "./context/CarritoContext";
-
-// TUS COMPONENTES
-import Menu from "./components/shared/Menu.jsx";
-import Footer from "./components/shared/Footer.jsx";
-import Admin from "./components/pages/Admin.jsx";
-import Inicio from "./components/pages/Inicio.jsx";
-import Carrito from "./components/pages/Carrito.jsx";
-import Register from "./components/pages/Register.jsx";
-import Nosotros from "./components/pages/Nosotros.jsx";
-import Contacto from "./components/pages/Contacto.jsx";
-import DetalleProducto from "./components/pages/DetalleProducto.jsx";
-import Error404 from "./components/pages/Error404.jsx";
-import Productos from "./components/pages/Productos.jsx";
-import ProtectorAdmin from "./components/routes/ProtectorAdmin.jsx";
+import { CarritoProvider } from "./context/CarritoContext"; // Si no lo usás, borralo
+import ProtectorAdmin from "./components/routes/ProtectorAdmin"; // El guardaespaldas
+import "./styles/App.css";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <CarritoProvider>
+        <CarritoProvider> {/* Si da error, borrá esta línea y su cierre */}
           <Menu />
           <main>
             <Routes>
+              {/* Rutas Públicas */}
               <Route path="/" element={<Inicio />} />
-
-              {/* Rutas Protegidas */}
-              <Route element={<ProtectorAdmin />}>
-                <Route path="/admin" element={<Admin />} />
-              </Route>
-
-              <Route path="/carrito" element={<Carrito />} />
-              <Route path="/register" element={<Register />} />
               <Route path="/productos" element={<Productos />} />
-              <Route path="/nosotros" element={<Nosotros />} />
+              <Route path="/productos/:id" element={<DetalleProducto />} />
               <Route path="/contacto" element={<Contacto />} />
-              <Route path="/producto/:id" element={<DetalleProducto />} />
+              <Route path="/carrito" element={<Carrito />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+
+              {/* 🔐 Ruta Protegida de Admin */}
+              <Route
+                path="/admin"  /* <--- AQUI ESTABA LA CLAVE (debe ser /admin) */
+                element={
+                  <ProtectorAdmin>
+                    <Admin />
+                  </ProtectorAdmin>
+                }
+              />
+
+              {/* Ruta de Error */}
               <Route path="*" element={<Error404 />} />
             </Routes>
           </main>
-          <FloatingButtons /> 
           <Footer />
         </CarritoProvider>
       </AuthProvider>

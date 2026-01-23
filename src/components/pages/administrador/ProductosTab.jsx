@@ -2,18 +2,17 @@ import { useState } from "react";
 import { Row, Col, Button, InputGroup, Form, Card, Table, Badge } from "react-bootstrap";
 
 function ProductosTab({
-  productos,
+  productos = [],
   abrirModalProductoCrear,
   abrirModalProductoEditar,
   handleEliminarProducto,
-  handleSuspenderProducto,
-  obtenerColorBadgeStock,
-  formatearPrecio,
+  obtenerColorBadgeStock = (s) => (s > 10 ? "success" : s > 0 ? "warning" : "danger"),
+  formatearPrecio = (p) => `$${p}`,
 }) {
   const [busqueda, setBusqueda] = useState("");
   const q = busqueda.toLowerCase().trim();
 
-  // Filtramos usando _id si está disponible, o fallback a string vacío
+  // Filtramos de forma segura
   const productosFiltrados = productos.filter((p) => {
     if (!q) return true;
     return (
@@ -27,14 +26,15 @@ function ProductosTab({
       <Row className="align-items-center mb-3 g-2">
         <Col md={4}>
           <Button
-            className="btn-admin-primary w-100"
+            className="btn btn-primary w-100"
             onClick={abrirModalProductoCrear}
           >
-            + Agregar producto
+            <i className="bi bi-plus-lg me-2"></i>Agregar producto
           </Button>
         </Col>
         <Col md={8}>
           <InputGroup>
+            <InputGroup.Text><i className="bi bi-search"></i></InputGroup.Text>
             <Form.Control
               type="text"
               placeholder="Buscar por nombre o categoría..."
@@ -45,10 +45,10 @@ function ProductosTab({
         </Col>
       </Row>
 
-      <Card className="admin-table-card shadow-sm">
-        <Card.Body>
-          <Table responsive striped hover className="mt-3 align-middle">
-            <thead className="table-primary">
+      <Card className="shadow-sm">
+        <Card.Body className="p-0">
+          <Table responsive striped hover className="mb-0 align-middle">
+            <thead className="table-light">
               <tr className="text-center">
                 <th>Imagen</th>
                 <th>Nombre</th>
@@ -61,10 +61,10 @@ function ProductosTab({
             </thead>
             <tbody className="text-center">
               {productosFiltrados.map((prod) => (
-                <tr key={prod._id}> {/* USAMOS _id DE MONGO */}
+                <tr key={prod._id || prod.uid}>
                   <td>
                     <img
-                      src={prod.imagenUrl}
+                      src={prod.imagenUrl || "https://placehold.co/50x50?text=Sin+Img"}
                       alt={prod.nombre}
                       style={{
                         width: "50px",
@@ -74,12 +74,12 @@ function ProductosTab({
                       }}
                       onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = "https://placehold.co/50x50?text=Sin+Img";
+                        e.target.src = "https://placehold.co/50x50?text=Error";
                       }}
                     />
                   </td>
-                  <td>{prod.nombre}</td>
-                  <td>{prod.categoria}</td>
+                  <td className="fw-semibold">{prod.nombre}</td>
+                  <td><Badge bg="info" text="dark">{prod.categoria}</Badge></td>
                   <td>
                     <Badge bg={obtenerColorBadgeStock(prod.stock)}>
                       {prod.stock}
@@ -90,7 +90,7 @@ function ProductosTab({
                     <Badge
                       bg={prod.estado === "Activo" ? "success" : "secondary"}
                     >
-                      {prod.estado}
+                      {prod.estado || "Activo"}
                     </Badge>
                   </td>
                   <td>
@@ -99,24 +99,16 @@ function ProductosTab({
                         variant="outline-primary"
                         size="sm"
                         onClick={() => abrirModalProductoEditar(prod)}
+                        title="Editar"
                       >
                         <i className="bi bi-pencil"></i>
                       </Button>
 
-                      {/* Botón suspender (Opcional si tu back lo soporta) */}
-                      {/* <Button
-                        variant={prod.estado === "Activo" ? "outline-warning" : "outline-success"}
-                        size="sm"
-                        onClick={() => handleSuspenderProducto(prod._id)}
-                      >
-                        <i className={`bi ${prod.estado === "Activo" ? "bi-pause-circle" : "bi-play-circle"}`}></i>
-                      </Button> 
-                      */}
-
                       <Button
                         variant="outline-danger"
                         size="sm"
-                        onClick={() => handleEliminarProducto(prod._id)} // Pasamos _id
+                        onClick={() => handleEliminarProducto(prod._id)}
+                        title="Eliminar"
                       >
                         <i className="bi bi-trash"></i>
                       </Button>
@@ -127,7 +119,8 @@ function ProductosTab({
 
               {productosFiltrados.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="text-center text-muted py-4">
+                  <td colSpan={7} className="text-center text-muted py-5">
+                    <i className="bi bi-inbox fs-1 d-block mb-2"></i>
                     No hay productos que coincidan con la búsqueda.
                   </td>
                 </tr>

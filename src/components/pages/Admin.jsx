@@ -27,11 +27,8 @@ const PRODUCTO_VACIO = {
 };
 
 function Admin() {
-const { user, token } = useAuth();
-console.log("TOKEN ADMIN:", token);
-console.log("ROL:", user?.rol);
-
-
+  // 1. OBTENEMOS USUARIO Y TOKEN DEL CONTEXTO
+  const { user, token } = useAuth(); // <--- Aquí ya viene el token
   const esAdmin = user?.rol === "Administrador";
 
   const [productos, setProductos] = useState([]);
@@ -54,25 +51,27 @@ console.log("ROL:", user?.rol);
 
   const cargarDatos = async () => {
     try {
+      // PRODUCTOS (Suele ser público, pero lo aseguramos)
       const resProd = await fetch(`${API_URL}/productos`);
       if (resProd.ok) setProductos(await resProd.json());
 
+      // USUARIOS (Requiere Token)
       const resUser = await fetch(`${API_URL}/usuarios`, {
-        headers: { "x-token": token },
+        headers: { "x-token": token }, // <--- Usamos el token real
       });
 
       if (resUser.ok) {
         setUsuarios(await resUser.json());
-      } else {
-        throw new Error("No autorizado");
-      }
+      } 
+      // Si falla usuarios, no cortamos todo, solo logueamos
     } catch (error) {
-      Swal.fire("Error", error.message, "error");
+      console.error("Error cargando datos:", error);
+      Swal.fire("Error de conexión", "No se pudieron cargar todos los datos", "error");
     }
   };
 
   // =========================
-  // PRODUCTOS
+  // PRODUCTOS LÓGICA
   // =========================
   const abrirModalProductoCrear = () => {
     setModoProducto("crear");
@@ -90,47 +89,65 @@ console.log("ROL:", user?.rol);
 
   const handleGuardarProducto = async (formData) => {
     try {
-      const res = await fetch(`${API_URL}/productos`, {
-        method: "POST",
+      let url = `${API_URL}/productos`;
+      let method = "POST";
+
+      if (modoProducto === "editar") {
+        url = `${API_URL}/productos/${productoSeleccionadoId}`;
+        method = "PUT";
+      }
+
+      const res = await fetch(url, {
+        method: method,
         headers: {
-          "x-token": token, // 🔐 JWT real
+          "x-token": token, // 🔐 TOKEN CLAVE AQUÍ
         },
-        body: formData, // 🔥 SE ENVÍA TAL CUAL
+        body: formData, // FormData viaja sin Content-Type manual (el navegador lo pone)
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.mensaje || "Acceso solo para administradores");
+        throw new Error(data.mensaje || "Error al guardar producto");
       }
 
       await cargarDatos();
       setShowProdModal(false);
-      Swal.fire("Éxito", "Producto creado correctamente", "success");
+      Swal.fire("Éxito", `Producto ${modoProducto === 'crear' ? 'creado' : 'editado'} correctamente`, "success");
     } catch (error) {
       Swal.fire("Error", error.message, "error");
     }
   };
 
   const handleEliminarProducto = async (id) => {
-    try {
-      const res = await fetch(`${API_URL}/productos/${id}`, {
-        method: "DELETE",
-        headers: { "x-token": token },
-      });
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esto",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, borrar',
+        cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const res = await fetch(`${API_URL}/productos/${id}`, {
+                    method: "DELETE",
+                    headers: { "x-token": token }, // 🔐 TOKEN CLAVE AQUÍ
+                });
 
-      if (!res.ok) throw new Error("No autorizado");
+                if (!res.ok) throw new Error("No autorizado o error al borrar");
 
-      await cargarDatos();
-      Swal.fire("Eliminado", "Producto eliminado", "success");
-    } catch (error) {
-      Swal.fire("Error", error.message, "error");
-    }
+                await cargarDatos();
+                Swal.fire("Eliminado", "Producto eliminado", "success");
+            } catch (error) {
+                Swal.fire("Error", error.message, "error");
+            }
+        }
+    })
   };
 
-  // =========================
-  // RENDER
-  // =========================
   return (
     <Container fluid className="py-5 px-lg-5">
       <h2 className="fw-bold mb-4">Panel de Administración</h2>
@@ -148,6 +165,9 @@ console.log("ROL:", user?.rol);
             abrirModalProductoCrear={abrirModalProductoCrear}
             abrirModalProductoEditar={abrirModalProductoEditar}
             handleEliminarProducto={handleEliminarProducto}
+            // Pasamos funciones de formato
+            obtenerColorBadgeStock={(stock) => stock > 10 ? 'success' : stock > 0 ? 'warning' : 'danger'}
+            formatearPrecio={(precio) => `$${precio}`}
           />
         </Tab>
 

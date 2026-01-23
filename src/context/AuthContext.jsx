@@ -1,8 +1,7 @@
-import { createContext, useState, useEffect, useContext } from "react"; // <--- Agregá useContext aquí
+import { createContext, useState, useEffect, useContext } from "react";
 
 export const AuthContext = createContext();
 
-// 1. ESTO ES LO QUE TE FALTA: El Hook personalizado
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -13,6 +12,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [usuario, setUsuario] = useState(null);
+  const [token, setToken] = useState(null); // <--- 1. Agregamos estado para el token
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,24 +22,28 @@ export const AuthProvider = ({ children }) => {
 
     if (usuarioGuardado && tokenGuardado) {
       setUsuario(usuarioGuardado);
+      setToken(tokenGuardado); // <--- 2. Recuperamos el token al recargar
     }
     setLoading(false);
   }, []);
 
-  const login = (userData, token) => {
+  const login = (userData, tokenRecibido) => {
     setUsuario(userData);
-    localStorage.setItem("token", token);
+    setToken(tokenRecibido); // <--- 3. Guardamos el token en el estado
+    localStorage.setItem("token", tokenRecibido);
     localStorage.setItem("usuario", JSON.stringify(userData));
   };
 
   const logout = () => {
     setUsuario(null);
+    setToken(null); // <--- 4. Borramos el token del estado
     localStorage.removeItem("token");
     localStorage.removeItem("usuario");
   };
 
   return (
-    <AuthContext.Provider value={{ usuario, login, logout, loading }}>
+    // 5. ¡AQUI ESTÁ LA CLAVE! Agregamos 'token' al value para que Admin.jsx lo pueda usar
+    <AuthContext.Provider value={{ usuario, token, login, logout, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );

@@ -13,10 +13,12 @@ import {
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import "../../styles/menu.css";
 import LOGO from "../../assets/ESSENZIA.png";
+
+// Importamos el Login (que ahora es Modal)
 import Login from "../pages/Login.jsx";
 
 import { useAuth } from "../../context/AuthContext";
-import { useCarrito } from "../../context/CarritoContext";
+// import { useCarrito } from "../../context/CarritoContext"; 
 
 const NAV_LINKS = [
   { to: "/", text: "Inicio" },
@@ -24,13 +26,15 @@ const NAV_LINKS = [
   { to: "/contacto", text: "Consultanos" },
 ];
 
-// 🔐 constante de rol (clave)
 const ROL_ADMIN = "Administrador";
 
 function Menu() {
-  const { user, logout } = useAuth();
-  const { cantidadTotal } = useCarrito();
+  const { usuario, logout } = useAuth();
+  
+  // const { cantidadTotal } = useCarrito(); 
+  const cantidadTotal = 0; 
 
+  // Estado para controlar el Modal
   const [showLogin, setShowLogin] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const navigate = useNavigate();
@@ -40,7 +44,7 @@ function Menu() {
     navigate("/");
   };
 
-  const esAdmin = user?.rol === ROL_ADMIN;
+  const esAdmin = usuario?.rol === ROL_ADMIN;
 
   return (
     <>
@@ -93,7 +97,7 @@ function Menu() {
             </Col>
 
             <Col lg={3} className="d-flex justify-content-end align-items-center gap-3 p-0">
-              {user ? (
+              {usuario ? (
                 <Dropdown>
                   <Dropdown.Toggle
                     variant="transparent"
@@ -101,7 +105,7 @@ function Menu() {
                   >
                     <i className="bi bi-person-circle fs-5"></i>
                     <span className="text-truncate" style={{ maxWidth: "150px" }}>
-                      {esAdmin ? "Administrador" : `Hola, ${user.nombre}`}
+                      {esAdmin ? "Administrador" : `Hola, ${usuario.nombre}`}
                     </span>
                   </Dropdown.Toggle>
 
@@ -122,12 +126,13 @@ function Menu() {
                   </Dropdown.Menu>
                 </Dropdown>
               ) : (
-                <Button
-                  className="btn-login-modern d-flex align-items-center gap-2"
-                  onClick={() => setShowLogin(true)}
+                // BOTON ESCRITORIO: Abre el Modal
+                <Button 
+                    className="btn-login-modern d-flex align-items-center gap-2"
+                    onClick={() => setShowLogin(true)}
                 >
-                  <i className="bi bi-person-fill"></i>
-                  <span>Ingresar</span>
+                    <i className="bi bi-person-fill"></i>
+                    <span>Ingresar</span>
                 </Button>
               )}
 
@@ -166,7 +171,7 @@ function Menu() {
 
                 {esAdmin && (
                   <NavLink
-                    to="/admin"
+                    to="/administrador"
                     className="nav-link-mobile text-warning"
                     onClick={() => setExpanded(false)}
                   >
@@ -175,7 +180,7 @@ function Menu() {
                 )}
               </Nav>
 
-              {user ? (
+              {usuario ? (
                 <Button
                   variant="outline-light"
                   className="w-100 py-2"
@@ -185,18 +190,19 @@ function Menu() {
                   }}
                 >
                   <i className="bi bi-box-arrow-right"></i>
-                  Cerrar Sesión ({user.nombre})
+                  Cerrar Sesión ({usuario.nombre})
                 </Button>
               ) : (
-                <Button
-                  className="btn-login-modern w-100 py-2"
-                  onClick={() => {
-                    setShowLogin(true);
-                    setExpanded(false);
-                  }}
+                // BOTON MOBILE: Abre el Modal
+                <Button 
+                    className="btn-login-modern w-100 py-2"
+                    onClick={() => {
+                        setShowLogin(true);
+                        setExpanded(false);
+                    }}
                 >
-                  <i className="bi bi-person-fill"></i>
-                  Ingresar
+                    <i className="bi bi-person-fill"></i>
+                    Ingresar
                 </Button>
               )}
             </div>
@@ -216,6 +222,7 @@ function Menu() {
         </Container>
       </div>
 
+      {/* AQUI ESTA EL MODAL FLOTANDO FUERA DEL NAV */}
       <Login show={showLogin} onClose={() => setShowLogin(false)} />
     </>
   );

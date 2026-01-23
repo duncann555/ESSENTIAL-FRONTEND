@@ -15,12 +15,10 @@ function ProductoModal({
     reset,
     watch,
     formState: { errors },
-  } = useForm({
-    defaultValues: productoInicial,
-  });
+  } = useForm();
 
   const [preview, setPreview] = useState(null);
-
+  
   const imagenFile = watch("imagen");
 
   useEffect(() => {
@@ -31,11 +29,23 @@ function ProductoModal({
   }, [imagenFile]);
 
   useEffect(() => {
-    if (productoInicial) {
-      reset(productoInicial);
-      setPreview(productoInicial.imagenUrl || null);
+    if (show) {
+        if (productoInicial && modoProducto === 'editar') {
+            reset(productoInicial);
+            setPreview(productoInicial.imagenUrl || null);
+        } else {
+            reset({
+                nombre: "",
+                categoria: "",
+                precio: "",
+                stock: "",
+                descripcion: "",
+                imagen: "" 
+            });
+            setPreview(null);
+        }
     }
-  }, [productoInicial, reset]);
+  }, [productoInicial, modoProducto, show, reset]);
 
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -43,7 +53,8 @@ function ProductoModal({
     Object.entries(data).forEach(([key, value]) => {
       if (key === "imagen") {
         if (value && value.length > 0) {
-          formData.append("imagenUrl", value[0]); // 🔥 coincide con multer
+          // El backend espera "imagen" (según tu código de multer)
+          formData.append("imagen", value[0]); 
         }
       } else {
         formData.append(key, value);
@@ -54,7 +65,7 @@ function ProductoModal({
   };
 
   return (
-    <Modal show={show} onHide={cerrarModalProducto} centered size="lg">
+    <Modal show={show} onHide={cerrarModalProducto} centered size="lg" backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>
           {modoProducto === "crear" ? "Nuevo Producto" : "Editar Producto"}
@@ -62,79 +73,95 @@ function ProductoModal({
       </Modal.Header>
 
       <Modal.Body>
-        <Form onSubmit={handleSubmit(onSubmit)} id="formProducto">
+        <Form id="formProducto" onSubmit={handleSubmit(onSubmit)}>
 
           {/* NOMBRE */}
-          <FloatingLabel label="Nombre" className="mb-3">
+          <FloatingLabel label="Nombre del Producto" className="mb-3">
             <Form.Control
-              {...register("nombre", { required: "Obligatorio" })}
+              type="text"
+              placeholder="Nombre"
+              {...register("nombre", { required: "El nombre es obligatorio" })}
               isInvalid={!!errors.nombre}
             />
-            <Form.Control.Feedback type="invalid">
-              {errors.nombre?.message}
-            </Form.Control.Feedback>
           </FloatingLabel>
 
           {/* CATEGORÍA + PRECIO */}
           <Row className="mb-3">
             <Col md={6}>
               <FloatingLabel label="Categoría">
-                <Form.Select {...register("categoria", { required: true })}>
-                  <option value="">Seleccionar</option>
+                <Form.Select 
+                    {...register("categoria", { required: "Selecciona una categoría" })}
+                    isInvalid={!!errors.categoria}
+                >
+                  <option value="">Seleccionar...</option>
                   <option value="Tinturas Madres">Tinturas Madres</option>
                   <option value="Aceites Esenciales">Aceites Esenciales</option>
                   <option value="Cosmética Natural">Cosmética Natural</option>
+                  <option value="Infusiones">Infusiones</option>
                 </Form.Select>
               </FloatingLabel>
             </Col>
 
             <Col md={6}>
-              <FloatingLabel label="Precio">
+              <FloatingLabel label="Precio ($)">
                 <Form.Control
                   type="number"
-                  {...register("precio", { required: true })}
+                  placeholder="0"
+                  min="0"
+                  step="0.01"
+                  {...register("precio", { required: "El precio es obligatorio" })}
+                  isInvalid={!!errors.precio}
                 />
               </FloatingLabel>
             </Col>
           </Row>
 
           {/* STOCK */}
-          <FloatingLabel label="Stock" className="mb-3">
+          <FloatingLabel label="Stock Disponible" className="mb-3">
             <Form.Control
               type="number"
-              {...register("stock", { required: true })}
+              placeholder="0"
+              min="0"
+              {...register("stock", { required: "El stock es obligatorio" })}
+              isInvalid={!!errors.stock}
             />
           </FloatingLabel>
 
           {/* IMAGEN */}
-          <FloatingLabel label="Imagen" className="mb-3">
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Imagen del Producto</Form.Label>
             <Form.Control
               type="file"
               accept="image/*"
               {...register("imagen", {
-                required: modoProducto === "crear",
+                required: modoProducto === "crear" ? "La imagen es obligatoria" : false,
               })}
+              isInvalid={!!errors.imagen}
             />
-          </FloatingLabel>
+          </Form.Group>
 
           {preview && (
-            <div className="text-center mb-3">
+            <div className="text-center mb-3 p-2 border rounded bg-light">
               <img
                 src={preview}
                 alt="preview"
-                style={{ maxHeight: "120px" }}
+                className="img-fluid rounded shadow-sm"
+                style={{ maxHeight: "150px" }}
               />
             </div>
           )}
 
           {/* DESCRIPCIÓN */}
-          <FloatingLabel label="Descripción">
+          <FloatingLabel label="Descripción Detallada">
             <Form.Control
               as="textarea"
-              style={{ height: 100 }}
-              {...register("descripcion", { required: true })}
+              placeholder="Descripción"
+              style={{ height: "120px" }}
+              {...register("descripcion", { required: "La descripción es obligatoria" })}
+              isInvalid={!!errors.descripcion}
             />
           </FloatingLabel>
+          
         </Form>
       </Modal.Body>
 
@@ -142,7 +169,7 @@ function ProductoModal({
         <Button variant="secondary" onClick={cerrarModalProducto}>
           Cancelar
         </Button>
-        <Button type="submit" form="formProducto">
+        <Button variant="success" type="submit" form="formProducto">
           Guardar
         </Button>
       </Modal.Footer>

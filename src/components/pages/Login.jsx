@@ -6,7 +6,7 @@ import "../../styles/login.css";
 // CONTEXTO DE AUTH
 import { useAuth } from "../../context/AuthContext";
 
-export default function ModalLogin({ show, onClose }) {
+export default function Login({ show, onClose }) {
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -16,6 +16,7 @@ export default function ModalLogin({ show, onClose }) {
   const [error, setError] = useState("");
   const [shake, setShake] = useState(false);
 
+  // Si show es falso, no renderizamos nada (Modal oculto)
   if (!show) return null;
 
   const triggerError = (msg) => {
@@ -49,32 +50,48 @@ export default function ModalLogin({ show, onClose }) {
 
       const data = await res.json();
 
+      // 🕵️‍♂️ CHISMOSO: Mirá la consola (F12) para ver qué llegó
+      console.log("Respuesta del Backend:", data);
+
       if (!res.ok) {
         throw new Error(data.mensaje || "Error al iniciar sesión");
       }
 
-      // ✅ LOGIN REAL AL CONTEXTO
-      login(
-        {
-          _id: data._id,
-          nombre: data.nombre,
-          email: data.email,
-          rol: data.rol,
-        },
-        data.token,
-      );
+      // 🧠 LÓGICA INTELIGENTE:
+      // Si el backend manda { usuario: {...} } usamos eso.
+      // Si manda los datos sueltos (versión vieja), usamos data directo.
+      const usuarioData = data.usuario || data;
+
+      // Armamos el objeto limpio para el contexto
+      const usuarioNormalizado = {
+        uid: usuarioData.uid || usuarioData._id, // Acepta uid o _id
+        nombre: usuarioData.nombre,
+        email: usuarioData.email,
+        rol: usuarioData.rol,
+      };
+
+      // Verificamos que no haya llegado vacío
+      if (!usuarioNormalizado.nombre || !usuarioNormalizado.rol) {
+        console.warn(
+          "⚠️ ALERTA: El usuario llegó sin nombre o rol. Revisar Base de Datos.",
+        );
+      }
+
+      // Guardamos en el contexto
+      login(usuarioNormalizado, data.token);
 
       setError("");
-      onClose();
+      onClose(); // Cerramos el modal
 
-      // 🚦 Redirección por rol
-      if (data.rol === "Administrador") {
-        navigate("/admin");
+      // 🚦 Redirección según el rol que llegó
+      if (usuarioNormalizado.rol === "Administrador") {
+        navigate("/admin"); // <--- ESTO SÍ COINCIDE CON TU APP.JSX
       } else {
         navigate("/");
       }
     } catch (err) {
-      triggerError(err.message);
+      console.error(err);
+      triggerError(err.message || "Error de conexión");
     }
   };
 
