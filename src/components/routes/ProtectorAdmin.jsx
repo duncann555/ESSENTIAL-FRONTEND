@@ -1,16 +1,19 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
-function ProtectorAdmin() {
-  const { user, loading } = useAuth();
+const ProtectorAdmin = ({ children }) => {
+  const { usuario, loading } = useContext(AuthContext);
 
+  // Si está cargando, no hacemos nada todavía (para evitar parpadeos)
   if (loading) return null;
 
-  if (!user || user.rol !== "Administrador") {
-    return <Navigate to="/" replace />;
+  // Si no hay usuario o no es admin, ¡afuera!
+  if (!usuario || usuario.rol !== "Administrador") {
+    return <Navigate to="/login" />;
   }
 
-  return <Outlet />;
-}
+  return children;
+};
 
 export default ProtectorAdmin;

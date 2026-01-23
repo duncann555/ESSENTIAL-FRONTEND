@@ -34,7 +34,7 @@ export default function ModalLogin({ show, onClose }) {
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/usuarios/login`,
+        `${import.meta.env.VITE_API_URL}/usuarios/login`,
         {
           method: "POST",
           headers: {

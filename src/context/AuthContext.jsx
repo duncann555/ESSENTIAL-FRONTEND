@@ -1,45 +1,46 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useState, useEffect, useContext } from "react"; // <--- Agregá useContext aquí
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
+
+// 1. ESTO ES LO QUE TE FALTA: El Hook personalizado
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth debe usarse dentro de un AuthProvider");
+  }
+  return context;
+};
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [usuario, setUsuario] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userGuardado = localStorage.getItem("user_esenzia");
+    // Al cargar, leemos del localStorage
+    const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
     const tokenGuardado = localStorage.getItem("token");
 
-    if (userGuardado && tokenGuardado) {
-      setUser(JSON.parse(userGuardado));
-      setToken(tokenGuardado);
+    if (usuarioGuardado && tokenGuardado) {
+      setUsuario(usuarioGuardado);
     }
-
     setLoading(false);
   }, []);
 
-  const login = (userData, jwtToken) => {
-    setUser(userData);
-    setToken(jwtToken);
-
-    localStorage.setItem("user_esenzia", JSON.stringify(userData));
-    localStorage.setItem("token", jwtToken);
+  const login = (userData, token) => {
+    setUsuario(userData);
+    localStorage.setItem("token", token);
+    localStorage.setItem("usuario", JSON.stringify(userData));
   };
 
   const logout = () => {
-    setUser(null);
-    setToken(null);
-
-    localStorage.removeItem("user_esenzia");
+    setUsuario(null);
     localStorage.removeItem("token");
+    localStorage.removeItem("usuario");
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
+    <AuthContext.Provider value={{ usuario, login, logout, loading }}>
       {!loading && children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);

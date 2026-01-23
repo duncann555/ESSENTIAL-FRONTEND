@@ -59,10 +59,7 @@ function Menu() {
             </Navbar.Brand>
 
             <div className="d-flex gap-3 align-items-center">
-              <Link
-                to="/carrito"
-                className="nav-icon-link fs-4 position-relative"
-              >
+              <Link to="/carrito" className="nav-icon-link fs-4 position-relative">
                 <i className="bi bi-cart3"></i>
                 {cantidadTotal > 0 && (
                   <Badge
@@ -95,10 +92,7 @@ function Menu() {
               <SearchBar />
             </Col>
 
-            <Col
-              lg={3}
-              className="d-flex justify-content-end align-items-center gap-3 p-0"
-            >
+            <Col lg={3} className="d-flex justify-content-end align-items-center gap-3 p-0">
               {user ? (
                 <Dropdown>
                   <Dropdown.Toggle
@@ -106,18 +100,12 @@ function Menu() {
                     className="btn-login-modern border-0 d-flex align-items-center gap-2 text-white"
                   >
                     <i className="bi bi-person-circle fs-5"></i>
-                    <span
-                      className="text-truncate"
-                      style={{ maxWidth: "150px" }}
-                    >
+                    <span className="text-truncate" style={{ maxWidth: "150px" }}>
                       {esAdmin ? "Administrador" : `Hola, ${user.nombre}`}
                     </span>
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu
-                    align="end"
-                    className="shadow border-0 rounded-3 mt-2"
-                  >
+                  <Dropdown.Menu align="end" className="shadow border-0 rounded-3 mt-2">
                     <Dropdown.Header>Mi Cuenta</Dropdown.Header>
 
                     {esAdmin && (
@@ -127,10 +115,7 @@ function Menu() {
                       </Dropdown.Item>
                     )}
 
-                    <Dropdown.Item
-                      onClick={handleLogout}
-                      className="text-danger"
-                    >
+                    <Dropdown.Item onClick={handleLogout} className="text-danger">
                       <i className="bi bi-box-arrow-right me-2"></i>
                       Cerrar Sesión
                     </Dropdown.Item>
@@ -146,10 +131,7 @@ function Menu() {
                 </Button>
               )}
 
-              <Link
-                to="/carrito"
-                className="nav-icon-link fs-4 position-relative"
-              >
+              <Link to="/carrito" className="nav-icon-link fs-4 position-relative">
                 <i className="bi bi-cart3"></i>
                 {cantidadTotal > 0 && (
                   <Badge

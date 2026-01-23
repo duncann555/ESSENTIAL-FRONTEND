@@ -1,10 +1,12 @@
 // src/helpers/queries.js
 
-// Definimos las URLs base (esto viene de tus variables de entorno o hardcodeado por ahora)
-const URL_PRODUCTOS = import.meta.env.VITE_API_PRODUCTOS || "http://localhost:4000/api/productos";
-const URL_USUARIOS = import.meta.env.VITE_API_USUARIOS || "http://localhost:4000/api/usuarios";
-// Si tuvieras autenticación:
-// const URL_AUTH = "http://localhost:4000/api/auth";
+// 1. Definimos la URL BASE maestra (Si no hay .env, usa localhost:3001/api)
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001/api";
+
+// 2. Derivamos las rutas específicas
+const URL_PRODUCTOS = `${API_URL}/productos`;
+const URL_USUARIOS = `${API_URL}/usuarios`;
+const URL_PAGOS = `${API_URL}/pagos`;
 
 // --- PRODUCTOS ---
 
@@ -15,7 +17,7 @@ export const leerProductos = async () => {
     return productos;
   } catch (error) {
     console.error("Error leyendo productos:", error);
-    return []; // Retornamos array vacío para que no rompa el .map
+    return [];
   }
 };
 
@@ -25,9 +27,9 @@ export const crearProducto = async (producto, token) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-token": token // Token para seguridad
+        "x-token": token,
       },
-      body: JSON.stringify(producto)
+      body: JSON.stringify(producto),
     });
     return respuesta;
   } catch (error) {
@@ -41,8 +43,8 @@ export const borrarProducto = async (id, token) => {
     const respuesta = await fetch(`${URL_PRODUCTOS}/${id}`, {
       method: "DELETE",
       headers: {
-        "x-token": token
-      }
+        "x-token": token,
+      },
     });
     return respuesta;
   } catch (error) {
@@ -57,9 +59,9 @@ export const editarProducto = async (id, producto, token) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "x-token": token
+        "x-token": token,
       },
-      body: JSON.stringify(producto)
+      body: JSON.stringify(producto),
     });
     return respuesta;
   } catch (error) {
@@ -68,24 +70,23 @@ export const editarProducto = async (id, producto, token) => {
   }
 };
 
-// --- USUARIOS (Login/Registro) ---
-// Aquí podrías agregar login, registro, listarUsuarios, etc.
+// --- PAGOS (Mercado Pago) ---
 
-// En src/helpers/queries.js (Frontend)
 export const generarPagoMP = async (carrito, envioInfo, token) => {
-    try {
-        const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/pagos/checkout`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "x-token": token
-            },
-            body: JSON.stringify({ productos: carrito, envio: envioInfo })
-        });
-        const data = await respuesta.json();
-        return data.id; // Retorna el preferenceId
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
+  try {
+    // Usamos la constante URL_PAGOS definida arriba para mantener consistencia
+    const respuesta = await fetch(`${URL_PAGOS}/checkout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-token": token,
+      },
+      body: JSON.stringify({ productos: carrito, envio: envioInfo }),
+    });
+    const data = await respuesta.json();
+    return data.id; // Retorna el preferenceId
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
