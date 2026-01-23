@@ -23,10 +23,8 @@ import ProtectorAdmin from "./components/routes/ProtectorAdmin.jsx";
 function App() {
   return (
     <BrowserRouter>
-      {/* 2. ENVOLVEMOS TODO CON LOS PROVEEDORES */}
       <AuthProvider>
         <CarritoProvider>
-          {/* EL MENÚ AHORA ESTÁ "ADENTRO" DEL CONTEXTO Y YA NO DARÁ ERROR */}
           <Menu />
           <main>
             <Routes>
@@ -46,7 +44,7 @@ function App() {
               <Route path="*" element={<Error404 />} />
             </Routes>
           </main>
-          <FloatingButtons /> {/* <--- ACÁ VA, VISIBLE SIEMPRE */}
+          <FloatingButtons /> 
           <Footer />
         </CarritoProvider>
       </AuthProvider>

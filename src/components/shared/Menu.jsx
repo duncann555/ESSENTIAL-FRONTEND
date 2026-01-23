@@ -15,21 +15,19 @@ import "../../styles/menu.css";
 import LOGO from "../../assets/ESSENZIA.png";
 import Login from "../pages/Login.jsx";
 
-// IMPORTAMOS LOS CONTEXTOS
 import { useAuth } from "../../context/AuthContext";
 import { useCarrito } from "../../context/CarritoContext";
 
-/* ==================================================
-          LINKS
-        ================================================== */
 const NAV_LINKS = [
   { to: "/", text: "Inicio" },
   { to: "/productos", text: "Productos" },
   { to: "/contacto", text: "Consultanos" },
 ];
 
+// 🔐 constante de rol (clave)
+const ROL_ADMIN = "Administrador";
+
 function Menu() {
-  // HOOKS DE CONTEXTO
   const { user, logout } = useAuth();
   const { cantidadTotal } = useCarrito();
 
@@ -42,9 +40,10 @@ function Menu() {
     navigate("/");
   };
 
+  const esAdmin = user?.rol === ROL_ADMIN;
+
   return (
     <>
-      {/* ================= NAVBAR SUPERIOR ================= */}
       <Navbar
         expand="lg"
         variant="dark"
@@ -53,7 +52,7 @@ function Menu() {
         className="navbar-modern py-2"
       >
         <Container>
-          {/* ===== MOBILE HEADER ===== */}
+          {/* MOBILE HEADER */}
           <div className="d-flex d-lg-none w-100 justify-content-between align-items-center">
             <Navbar.Brand as={Link} to="/" onClick={() => setExpanded(false)}>
               <img src={LOGO} alt="Esenzia Logo" height="40" />
@@ -84,7 +83,7 @@ function Menu() {
             </div>
           </div>
 
-          {/* ===== DESKTOP HEADER ===== */}
+          {/* DESKTOP HEADER */}
           <Row className="d-none d-lg-flex w-100 align-items-center m-0">
             <Col lg={3} className="p-0">
               <Navbar.Brand as={Link} to="/">
@@ -100,7 +99,6 @@ function Menu() {
               lg={3}
               className="d-flex justify-content-end align-items-center gap-3 p-0"
             >
-              {/* LÓGICA DE USUARIO */}
               {user ? (
                 <Dropdown>
                   <Dropdown.Toggle
@@ -108,17 +106,12 @@ function Menu() {
                     className="btn-login-modern border-0 d-flex align-items-center gap-2 text-white"
                   >
                     <i className="bi bi-person-circle fs-5"></i>
-
-                    {/* --- ACÁ ESTÁ LA MAGIA --- */}
                     <span
                       className="text-truncate"
                       style={{ maxWidth: "150px" }}
                     >
-                      {user.rol === "admin"
-                        ? "Administrador"
-                        : `Hola, ${user.nombre}`}
+                      {esAdmin ? "Administrador" : `Hola, ${user.nombre}`}
                     </span>
-                    {/* ------------------------- */}
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu
@@ -126,17 +119,20 @@ function Menu() {
                     className="shadow border-0 rounded-3 mt-2"
                   >
                     <Dropdown.Header>Mi Cuenta</Dropdown.Header>
-                    {user.rol === "admin" && (
+
+                    {esAdmin && (
                       <Dropdown.Item as={Link} to="/admin">
-                        <i className="bi bi-speedometer2 me-2"></i>Panel Admin
+                        <i className="bi bi-speedometer2 me-2"></i>
+                        Panel Admin
                       </Dropdown.Item>
                     )}
+
                     <Dropdown.Item
                       onClick={handleLogout}
                       className="text-danger"
                     >
-                      <i className="bi bi-box-arrow-right me-2"></i>Cerrar
-                      Sesión
+                      <i className="bi bi-box-arrow-right me-2"></i>
+                      Cerrar Sesión
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -150,7 +146,6 @@ function Menu() {
                 </Button>
               )}
 
-              {/* CARRITO CON CONTADOR */}
               <Link
                 to="/carrito"
                 className="nav-icon-link fs-4 position-relative"
@@ -170,12 +165,10 @@ function Menu() {
             </Col>
           </Row>
 
-          {/* ===== MOBILE COLLAPSE ===== */}
+          {/* MOBILE COLLAPSE */}
           <Navbar.Collapse>
             <div className="d-lg-none pt-3 pb-2">
-              <div className="mb-3">
-                <SearchBar />
-              </div>
+              <SearchBar />
 
               <Nav className="flex-column gap-2 mb-3">
                 {NAV_LINKS.map((link) => (
@@ -189,8 +182,7 @@ function Menu() {
                   </NavLink>
                 ))}
 
-                {/* Link extra para Admin en Mobile */}
-                {user?.rol === "admin" && (
+                {esAdmin && (
                   <NavLink
                     to="/admin"
                     className="nav-link-mobile text-warning"
@@ -204,7 +196,7 @@ function Menu() {
               {user ? (
                 <Button
                   variant="outline-light"
-                  className="w-100 py-2 d-flex justify-content-center gap-2"
+                  className="w-100 py-2"
                   onClick={() => {
                     handleLogout();
                     setExpanded(false);
@@ -215,7 +207,7 @@ function Menu() {
                 </Button>
               ) : (
                 <Button
-                  className="btn-login-modern w-100 py-2 d-flex justify-content-center gap-2"
+                  className="btn-login-modern w-100 py-2"
                   onClick={() => {
                     setShowLogin(true);
                     setExpanded(false);
@@ -230,7 +222,6 @@ function Menu() {
         </Container>
       </Navbar>
 
-      {/* ================= SUB NAVBAR DESKTOP ================= */}
       <div className="lower-navbar d-none d-lg-block shadow-sm">
         <Container>
           <Nav className="justify-content-center gap-5">
@@ -248,9 +239,6 @@ function Menu() {
   );
 }
 
-/* ==================================================
-          SEARCH BAR
-        ================================================== */
 function SearchBar() {
   return (
     <Form className="search-wrapper w-100">

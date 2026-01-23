@@ -18,7 +18,7 @@ import oferta3 from "../../assets/oferta3.jpg";
 // ================================
 // CONFIGURACIÓN API
 // ================================
-const URL_API = "http://localhost:4000/api/productos"; 
+const URL_API = "http://localhost:3001/api/productos"; 
 
 const IMG_PLACEHOLDER = (text) => 
   `https://placehold.co/800x800/png?text=${encodeURIComponent(text || "Sin Imagen")}`;
